@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>content</title>
+<style type="text/css">
+	li{list-style: none;background-color: yellow;width: 200px;height: 100px;margin-bottom: 20px;border:4px solid #000;}
+	div{width: 200px;height: 100px;background-color: #f00;opacity: 0.3;filter:alpha(opacity:30);}
+</style>	
+<script type="text/javascript">
+	function addEvent(elem, type, listener){
+   	 if(elem.addEventListener){
+  	     elem.addEventListener(type, listener);
+  	  }
+ 	 else{ 
+  	  elem.attachEvent('on' + type, listener);}
+  
+ 	 };
+
+
+ 	 function tomove(obj,attr,target){
+ 	 	clearInterval(obj.timer)
+ 	 	obj.timer=setInterval(function(){
+ 	 		if(attr=="opacity"){
+ 	 			var icur=parseFloat(getStyle(obj,attr))*100;
+ 	 		}
+ 	 		else{var icur=parseInt(getStyle(obj,attr));}
+ 	 	
+ 	 	var speed=(target-icur)/8;
+ 	 		speed=speed>0?Math.ceil(speed):Math.floor(speed);
+ 	 	
+ 	 	if(icur==target){
+ 	 		clearInterval(obj.timer);
+ 	 	}
+ 	 	else{	 
+ 	 		if(attr=="opacity"){
+ 	 			obj.style.filter='alpha(opacity:'+(icur+speed)+')';
+ 	 			obj.style.opacity=(icur+speed)/100;
+ 	 		}
+ 	 		else{obj.style[attr]=icur+speed+"px";}
+ 	 		}
+ 	 	},30)
+ 	 }
+
+
+ window.onload=function(){
+ 	var oli=document.getElementsByTagName("li");
+ 	var odiv=document.getElementById("my")
+ 	for(var i=0;i<oli.length;i++){
+ 		oli[i].timer=null;
+ 		 addEvent(oli[i],"mouseover",function(){tomove(this,'width',400)});
+ 		 addEvent(oli[i],"mouseout",function(){tomove(this,'width',200)})
+ 	}
+ 	addEvent(odiv,"mouseover",function(){tomove(this,'opacity',100)});
+ 	addEvent(odiv,'mouseout',function(){tomove(this,'opacity',30)})
+ }
+  function getStyle(obj,attr){
+  	if(obj.currentStyle){
+  		return obj.currentStyle[attr];
+  	}
+  	else{return getComputedStyle(obj,null)[attr];}
+  }
+
+	
+</script>
+</head>
+<body>
+	<ul >
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+<div id="my"></div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>content</title>
+</head>
+<style type="text/css">
+	div{width: 200px;height: 200px;background-color: red;opacity: 0.3;filter:alpha(opacity:30);float: left;margin-right: 10px;}
+</style>
+<script type="text/javascript">
+	// var timer=null;	
+	var	dontknow={
+			addEvent:function(ele,type,handle){
+				ele.addEventListener?ele.addEventListener(type,handle):ele.attachEvent("on"+type,handle);
+			},
+			removeEvent:function(ele,type,handle){
+				ele.removeEventListener?ele.removeEventListener(type,handle):ele.detachEvent("on"+type,handle);
+			}
+		}; 
+		window.onload=function(){
+		var odiv=document.getElementsByTagName("div");
+		for(var i=0;i<odiv.length;i++){
+			odiv[i].timer=null;
+			 odiv[i].alpha=30;
+			dontknow.addEvent(odiv[i],"mouseover",function(){tochange(this,100)});
+		dontknow.addEvent(odiv[i],"mouseout",function(){tochange(this,30)});
+		}
+
+		
+
+}			
+			
+		function tochange(obj,o){
+			clearInterval(obj.timer);
+			obj.timer=setInterval(function(){
+			var speed=0;
+				if(obj.alpha>o){
+					speed=-10;
+				}
+				else{
+					speed=10;
+				}
+				if(obj.alpha==o){
+				clearInterval(obj.timer);
+				}
+				else{
+					obj.alpha+=speed;
+					obj.style.filter="alpha(opacity:"+obj.alpha+")";
+					obj.style.opacity=obj.alpha/100;
+				}
+			},60);
+		}
+</script>
+<body>
+	<div id="odiv"></div>
+	<div></div>
+	<div></div>
+	
+</body>
+</html>
